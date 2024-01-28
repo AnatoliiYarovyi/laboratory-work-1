@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LabParts3
 {
@@ -12,85 +10,105 @@ namespace LabParts3
         {
             List<Employer> employers = new List<Employer>
             {
-                new President("Іван", 45, 10000, 10, Education.Higher),
-                new Manager("Петро", 35, 5000, 5, Education.Higher),
-                new Manager("Микита", 40, 5000, 8, Education.Higher),
-                new Worker("Марія", 28, 3300, 3, Education.Secondary),
-                new Worker("Федір", 33, 3000, 3, Education.None),
+                new President("Іван", 10000, 10, Education.Higher, new DateTime(1991, 10, 25)),
+                new Manager("Петро", 5000, 5, Education.Higher, new DateTime(1987, 5, 15)),
+                new Manager("Микита", 5000, 8, Education.Higher, new DateTime(1982, 6, 7)),
+                new Manager("Михайло", 5000, 8, Education.Higher, new DateTime(1995, 10, 7)),
+                new Worker("Марія", 3300, 3, Education.Secondary, new DateTime(1993, 3, 10)),
+                new Worker("Федір", 3000, 3, Education.None, new DateTime(1990, 8, 20)),
+                new Worker("Володимир", 3000, 3, Education.None, new DateTime(1997, 8, 20)),
+                new Worker("Анна", 2800, 2, Education.Secondary, new DateTime(1994, 7, 15)),
+                new Worker("Ігор", 3200, 4, Education.Higher, new DateTime(1992, 4, 5)),
+                new Worker("Оксана", 2900, 2, Education.Secondary, new DateTime(1996, 1, 8)),
+                new Worker("Степан", 3100, 3, Education.Higher, new DateTime(1989, 9, 12)),
+                new Worker("Наталя", 2700, 1, Education.Secondary, new DateTime(1998, 11, 18)),
+                new Worker("Віталій", 3300, 4, Education.Higher, new DateTime(1992, 12, 22)),
+                new Worker("Юлія", 3000, 2, Education.None, new DateTime(1995, 6, 30)),
+                new Worker("Роман", 3100, 3, Education.Secondary, new DateTime(1993, 2, 14)),
+                new Worker("Тетяна", 3200, 4, Education.Higher, new DateTime(1988, 3, 7)),
             };
 
             Company company = new Company(employers);
 
-            Console.WriteLine($"Число робітників на підприємстві: {company.GetNumberOfWorkers()}");
-            Console.WriteLine($"Об’єм заробітної платні, що необхідно виплатити: {company.GetTotalSalary()}");
+            Console.WriteLine($"Number of workers in the company: {company.GetNumberOfWorkers()}");
+            Console.WriteLine($"Total salary volume to be paid: {company.GetTotalSalary()}");
+
+            Employer youngestWithHigherEducation = company.GetYoungestManager();
+            Console.WriteLine($"Найменший за віком робітник з вищою освітою: {youngestWithHigherEducation.Name}");
 
             Employer youngestManager = company.GetYoungestManager();
-            Console.WriteLine($"Наймолодший менеджер: {youngestManager.Name}, {youngestManager.Age} років");
+            Console.WriteLine($"Youngest manager: {youngestManager.Name}, {company.CalculateAge(youngestManager.BirthDate)} years old");
 
             Employer oldestManager = company.GetOldestManager();
-            Console.WriteLine($"Найстарший менеджер: {oldestManager.Name}, {oldestManager.Age} років");
+            Console.WriteLine($"Oldest manager: {oldestManager.Name}, {company.CalculateAge(oldestManager.BirthDate)} years old");
 
             List<Employer> workersBornInOctober = company.GetWorkersBornInOctober();
-            Console.WriteLine("Робітники, народжені в жовтні:");
+            Console.WriteLine("Workers born in October:");
             foreach (var worker in workersBornInOctober)
             {
-                Console.WriteLine($"{worker.Name}, {worker.Age} років, Освіта: {worker.Education}, Стаж: {worker.WorkExperience} років");
+                Console.WriteLine($"{worker.Name}, {company.CalculateAge(worker.BirthDate)} years old, Education: {worker.Education}, Work Experience: {worker.WorkExperience} years, Birthdate: {worker.BirthDate.ToString("dd.MM.yyyy")}");
             }
 
             Employer youngestVladimir = company.GetYoungestVladimir();
-            if (youngestVladimir == null)
+
+            if (youngestVladimir != null)
             {
-                Console.WriteLine($"В цей раз премію ніхто не отримав");
-            } else {
-                company.CongratulateWithBonus(youngestVladimir); 
+                company.CongratulateWithBonus(youngestVladimir);
             }
-            
+            else
+            {
+                Console.WriteLine($"This time, no one received a bonus");
+            }
+
+            Console.ReadLine();
         }
     }
+
     enum Education
     {
         None,
         Secondary,
         Higher
     }
+
     class Employer
     {
         public string Name { get; set; }
-        public int Age { get; set; }
         public double Salary { get; set; }
         public int WorkExperience { get; set; }
         public Education Education { get; set; }
+        public DateTime BirthDate { get; set; }
 
-        public Employer(string name, int age, double salary, int workExperience, Education education)
+        public Employer(string name, double salary, int workExperience, Education education, DateTime birthDate)
         {
             Name = name;
-            Age = age;
             Salary = salary;
             WorkExperience = workExperience;
             Education = education;
+            BirthDate = birthDate;
         }
     }
 
     class President : Employer
     {
-        public President(string name, int age, double salary, int workExperience, Education education)
-            : base(name, age, salary, workExperience, education)
+        public President(string name, double salary, int workExperience, Education education, DateTime birthDate)
+            : base(name, salary, workExperience, education, birthDate)
         {
         }
     }
 
     class Manager : Employer
     {
-        public Manager(string name, int age, double salary, int workExperience, Education education)
-            : base(name, age, salary, workExperience, education)
+        public Manager(string name, double salary, int workExperience, Education education, DateTime birthDate)
+            : base(name, salary, workExperience, education, birthDate)
         {
         }
     }
 
     class Worker : Employer
     {
-        public Worker(string name, int age, double salary, int workExperience, Education education)
-            : base(name, age, salary, workExperience, education)
+        public Worker(string name, double salary, int workExperience, Education education, DateTime birthDate)
+            : base(name, salary, workExperience, education, birthDate)
         {
         }
     }
@@ -114,30 +132,46 @@ namespace LabParts3
             return employers.Sum(e => e.Salary);
         }
 
+        public Employer GetYoungestWithHigherEducation()
+        { 
+            List < Employer > topWorkers = employers.OrderByDescending(w => w.WorkExperience).Take(10).ToList();
+            Employer youngestWithHigherEducation = topWorkers.Where(w => w.Education == Education.Higher).OrderBy(w => w.BirthDate).FirstOrDefault();
+            return youngestWithHigherEducation;
+        }
+
         public Employer GetYoungestManager()
         {
-            return employers.OfType<Manager>().OrderBy(e => e.Age).FirstOrDefault();
+            return employers.OfType<Manager>().OrderByDescending(e => e.BirthDate).FirstOrDefault();
+            
         }
 
         public Employer GetOldestManager()
         {
-            return employers.OfType<Manager>().OrderByDescending(e => e.Age).FirstOrDefault();
+            return employers.OfType<Manager>().OrderBy(e => e.BirthDate).FirstOrDefault();
         }
 
         public List<Employer> GetWorkersBornInOctober()
-{
-    return employers.OfType<Worker>().Where(w => w.Age >= 18 && w.Age <= 60 && w.Education == Education.Higher && w.WorkExperience >= 2).Cast<Employer>().ToList();
-}
+        {
+            return employers.Where(e => e.BirthDate.Month == 10).ToList();
+        }
 
         public Employer GetYoungestVladimir()
         {
-            return employers.Where(e => e.Name.StartsWith("Володимир", StringComparison.OrdinalIgnoreCase)).OrderBy(e => e.Age).FirstOrDefault();
+            return employers.FirstOrDefault(e => e.Name.StartsWith("Володимир", StringComparison.OrdinalIgnoreCase));
         }
 
         public void CongratulateWithBonus(Employer employer)
         {
             double bonus = employer.Salary / 3;
-            Console.WriteLine($"Поздоровляємо {employer.Name} з премією у розмірі {bonus}!");
+            Console.WriteLine($"Congratulations to {employer.Name} on receiving a bonus of {bonus}!");
+        }
+
+        public int CalculateAge(DateTime birthDate)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-age)) age--;
+            return age;
         }
     }
 }
