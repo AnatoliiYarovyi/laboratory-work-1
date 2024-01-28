@@ -24,6 +24,7 @@ class Program
 
             default:
                 Console.WriteLine("Wrong choice, goodbye!");
+                Console.ReadLine();
                 break;
         }
     }
