@@ -13,6 +13,11 @@ namespace LabParts2
         {
             new Phone("iPhone 13", "Apple", 1200, DateTime.Parse("2021-09-14")),
             new Phone("Galaxy S22", "Samsung", 900, DateTime.Parse("2022-01-20")),
+            new Phone("iPhone 7", "Apple", 450, DateTime.Parse("2015-08-22")),
+            new Phone("Galaxy S22", "Samsung", 900, DateTime.Parse("2022-01-20")),
+            new Phone("Pixel 6", "Google", 800, DateTime.Parse("2022-02-15")),
+            new Phone("OnePlus 9", "OnePlus", 750, DateTime.Parse("2021-11-10")),
+            new Phone("Xperia 5 III", "Sony", 900, DateTime.Parse("2022-03-05")),
             // Додайте інші телефони за необхідностю
         };
 
@@ -115,6 +120,8 @@ namespace LabParts2
             {
                 Console.WriteLine(stat);
             }
+
+            Console.ReadLine();
         }
 
         static void PrintPhones(IEnumerable<Phone> phones)
