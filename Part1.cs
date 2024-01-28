@@ -11,9 +11,10 @@ namespace LabParts
             // Cтворення колекції фірм
             List<Firm> firms = new List<Firm>
         {
-            new Firm("Food Corp", DateTime.Parse("2021-01-01"), "Food", "John White", 120, "London"),
-            new Firm("Marketing Solutions", DateTime.Parse("2020-05-15"), "Marketing", "Jane Black", 80, "New York"),
-            new Firm("QWE", DateTime.Parse("2022-06-07"), "IT", "Qwe Qwe", 45, "Ukraine"),
+            new Firm("Food Corp", DateTime.Parse("2021-01-01"), "Food", "White", "John", "ASD", 120, "London"),
+            new Firm("Marketing Solutions", DateTime.Parse("2020-05-15"), "Marketing", "Black", "Jane", "Asd", 80, "New York"),
+            new Firm("QWE", DateTime.Parse("2022-06-07"), "IT", "White", "Qwe", "Asd", 45, "Ukraine"),
+            new Firm("WhiteAsd", DateTime.Parse("2022-06-07"), "IT", "Black", "Qwe", "Asd", 45, "Ukraine"),
         };
 
             // Отримання інформації про всі фірми
@@ -48,8 +49,8 @@ namespace LabParts
 
             // Отримання фірм, у яких прізвище директора "Black" та назва фірми містить слово "White"
             var blackDirectorWhiteInNameFirms = firms
-                .Where(f => f.DirectorLastName == "Black" && f.Name.ToLower().Contains("white"))
-                .ToList();
+            .Where(f => f.DirectorLastName == "Black" && f.Name.ToLower().Contains("white"))
+            .ToList();
 
             // Виведення результатів
             Console.WriteLine("All Firms:");
@@ -84,13 +85,15 @@ namespace LabParts
 
             Console.WriteLine("\nBlack Director White In Name Firms:");
             PrintFirms(blackDirectorWhiteInNameFirms);
+
+            Console.ReadLine();
         }
 
         static void PrintFirms(IEnumerable<Firm> firms)
         {
             foreach (var firm in firms)
             {
-                Console.WriteLine($"Name: {firm.Name}, Business Profile: {firm.BusinessProfile}, Director: {firm.DirectorLastName}, Employees: {firm.EmployeeCount}, Address: {firm.Address}");
+                Console.WriteLine($"Name: {firm.Name}, Business Profile: {firm.BusinessProfile}, Director: { firm.DirectorLastName} { firm.DirectorFirstName} {firm.DirectorMiddleName}, Employees: {firm.EmployeeCount}, Address: {firm.Address}");
             }
         }
     }
@@ -101,15 +104,19 @@ namespace LabParts
         public DateTime FoundingDate { get; set; }
         public string BusinessProfile { get; set; }
         public string DirectorLastName { get; set; }
+        public string DirectorFirstName { get; set; }
+        public string DirectorMiddleName { get; set; }
         public int EmployeeCount { get; set; }
         public string Address { get; set; }
 
-        public Firm(string name, DateTime foundingDate, string businessProfile, string directorLastName, int employeeCount, string address)
+        public Firm(string name, DateTime foundingDate, string businessProfile, string directorLastName, string directorFirstName, string directorMiddleName, int employeeCount, string address)
         {
             Name = name;
             FoundingDate = foundingDate;
             BusinessProfile = businessProfile;
             DirectorLastName = directorLastName;
+            DirectorFirstName = directorFirstName;
+            DirectorMiddleName = directorMiddleName;
             EmployeeCount = employeeCount;
             Address = address;
         }
